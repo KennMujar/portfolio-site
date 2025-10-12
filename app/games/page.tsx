@@ -1,9 +1,15 @@
-"use client"
+"use client";
 
-import { Card } from "@/components/ui/card"
-import { ExternalLink, Github, ArrowLeft, Smartphone, Gamepad2 } from "lucide-react"
-import Link from "next/link"
-import { useEffect } from "react"
+import { Card } from "@/components/ui/card";
+import {
+  ExternalLink,
+  Github,
+  ArrowLeft,
+  Smartphone,
+  Gamepad2,
+} from "lucide-react";
+import Link from "next/link";
+import { useEffect } from "react";
 
 const gameProjects = [
   {
@@ -17,9 +23,15 @@ const gameProjects = [
     ],
     technologies: ["Unity", "C#", "Blender", "Shader Graph", "Cinemachine"],
     githubUrl: "https://github.com/yourusername/epic-adventure",
-    playStoreUrl: "https://play.google.com/store/apps/details?id=com.yourcompany.epicadventure",
+    playStoreUrl:
+      "https://play.google.com/store/apps/details?id=com.yourcompany.epicadventure",
     appStoreUrl: "https://apps.apple.com/app/epic-adventure-quest/id123456789",
-    features: ["Open World Exploration", "Dynamic Combat", "Puzzle Solving", "Epic Boss Battles"],
+    features: [
+      "Open World Exploration",
+      "Dynamic Combat",
+      "Puzzle Solving",
+      "Epic Boss Battles",
+    ],
     platforms: ["iOS", "Android", "PC"],
   },
   {
@@ -33,9 +45,15 @@ const gameProjects = [
     ],
     technologies: ["Unity", "C#", "Firebase", "PlayFab", "DOTween"],
     githubUrl: "https://github.com/yourusername/puzzle-master",
-    playStoreUrl: "https://play.google.com/store/apps/details?id=com.yourcompany.puzzlemaster",
+    playStoreUrl:
+      "https://play.google.com/store/apps/details?id=com.yourcompany.puzzlemaster",
     appStoreUrl: "https://apps.apple.com/app/puzzle-master-pro/id987654321",
-    features: ["500+ Levels", "Daily Challenges", "Global Leaderboards", "Hint System"],
+    features: [
+      "500+ Levels",
+      "Daily Challenges",
+      "Global Leaderboards",
+      "Hint System",
+    ],
     platforms: ["iOS", "Android"],
   },
   {
@@ -47,10 +65,22 @@ const gameProjects = [
       "/space-shooter-boss-battle-scene.jpg",
       "/space-shooter-power-up-collection.jpg",
     ],
-    technologies: ["Unity", "C#", "Particle System", "Audio Mixer", "Input System"],
+    technologies: [
+      "Unity",
+      "C#",
+      "Particle System",
+      "Audio Mixer",
+      "Input System",
+    ],
     githubUrl: "https://github.com/yourusername/space-shooter",
-    playStoreUrl: "https://play.google.com/store/apps/details?id=com.yourcompany.spaceshooter",
-    features: ["Endless Gameplay", "Ship Upgrades", "Epic Boss Fights", "Leaderboards"],
+    playStoreUrl:
+      "https://play.google.com/store/apps/details?id=com.yourcompany.spaceshooter",
+    features: [
+      "Endless Gameplay",
+      "Ship Upgrades",
+      "Epic Boss Fights",
+      "Leaderboards",
+    ],
     platforms: ["Android", "PC"],
   },
   {
@@ -65,15 +95,20 @@ const gameProjects = [
     technologies: ["Unity", "C#", "Timeline", "Terrain Tools", "Universal RP"],
     githubUrl: "https://github.com/yourusername/cozy-farm",
     appStoreUrl: "https://apps.apple.com/app/cozy-farm-simulator/id456789123",
-    features: ["Crop Farming", "Animal Care", "Seasonal Events", "Customization"],
+    features: [
+      "Crop Farming",
+      "Animal Care",
+      "Seasonal Events",
+      "Customization",
+    ],
     platforms: ["iOS", "PC"],
   },
-]
+];
 
 export default function GameDevelopmentPortfolio() {
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" })
-  }, [])
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -81,9 +116,12 @@ export default function GameDevelopmentPortfolio() {
         <Link
           href="/#projects"
           onClick={(e) => {
-            e.preventDefault()
-            sessionStorage.setItem("homeScrollPosition", sessionStorage.getItem("homeScrollPosition") || "0")
-            window.location.href = "/#projects"
+            e.preventDefault();
+            sessionStorage.setItem(
+              "homeScrollPosition",
+              sessionStorage.getItem("homeScrollPosition") || "0"
+            );
+            window.location.href = "/#projects";
           }}
           className="group mb-8 inline-flex items-center gap-2 text-muted-foreground transition-all hover:text-primary active:text-primary"
         >
@@ -97,11 +135,12 @@ export default function GameDevelopmentPortfolio() {
             Game Development
           </div>
           <h1 className="mb-4 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-5xl font-bold text-transparent lg:text-6xl">
-            My Game Projects
+            GĒMU
           </h1>
           <p className="mx-auto max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground">
-            A collection of games I've built, from action-packed adventures to relaxing simulations. Each project
-            showcases different aspects of game design, development, and polish.
+            A collection of games I've built, from action-packed adventures to
+            relaxing simulations. Each project showcases different aspects of
+            game design, development, and polish.
           </p>
         </div>
 
@@ -123,7 +162,10 @@ export default function GameDevelopmentPortfolio() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     {game.screenshots.slice(1).map((screenshot, idx) => (
-                      <div key={idx} className="relative aspect-video overflow-hidden rounded-lg bg-muted">
+                      <div
+                        key={idx}
+                        className="relative aspect-video overflow-hidden rounded-lg bg-muted"
+                      >
                         <img
                           src={screenshot || "/placeholder.svg"}
                           alt={`${game.title} screenshot ${idx + 2}`}
@@ -137,8 +179,12 @@ export default function GameDevelopmentPortfolio() {
                 {/* Game Info Section */}
                 <div className="flex flex-col justify-between p-6 lg:p-8">
                   <div>
-                    <h2 className="mb-4 text-3xl font-bold text-foreground group-hover:text-primary">{game.title}</h2>
-                    <p className="mb-6 text-pretty leading-relaxed text-muted-foreground">{game.description}</p>
+                    <h2 className="mb-4 text-3xl font-bold text-foreground group-hover:text-primary">
+                      {game.title}
+                    </h2>
+                    <p className="mb-6 text-pretty leading-relaxed text-muted-foreground">
+                      {game.description}
+                    </p>
 
                     {/* Features */}
                     <div className="mb-6">
@@ -164,7 +210,10 @@ export default function GameDevelopmentPortfolio() {
                       </h3>
                       <div className="flex flex-wrap gap-2 font-mono text-xs text-muted-foreground">
                         {game.technologies.map((tech) => (
-                          <span key={tech} className="rounded bg-muted px-3 py-1">
+                          <span
+                            key={tech}
+                            className="rounded bg-muted px-3 py-1"
+                          >
                             {tech}
                           </span>
                         ))}
@@ -233,5 +282,5 @@ export default function GameDevelopmentPortfolio() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -52,7 +52,7 @@ export function About() {
         <div className="relative">
           <div className="relative z-10 overflow-hidden rounded-lg border-2 border-primary/20 bg-card">
             <img
-              src="/me-cutie.jpg"
+              src="/me-cutie.JPG"
               alt="Profile"
               className="h-full w-full object-cover grayscale transition-all hover:grayscale-0"
             />
