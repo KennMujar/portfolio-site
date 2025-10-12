@@ -7,9 +7,32 @@ import { Suspense } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Kenn - Software Engineer",
+  title: "Kenn | Developer Portfolio",
   description:
-    "Software engineer specializing in building exceptional digital experiences",
+    "Hi, I’m Kenn — a software engineer who loves building apps, games, and digital experiences.",
+  openGraph: {
+    title: "Kenn | Developer Portfolio",
+    description:
+      "Hi, I’m Kenn — a software engineer who loves building apps, games, and digital experiences.",
+    url: "https://your-vercel-domain.vercel.app",
+    siteName: "Kenn Portfolio",
+    images: [
+      {
+        url: "thumbnail.png", // replace this with your image path
+        width: 1200,
+        height: 630,
+        alt: "Kenn Developer Portfolio Preview",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kenn | Developer Portfolio",
+    description: "Software engineer crafting apps, games, and experiences.",
+    images: ["https://your-vercel-domain.vercel.app/og-image.png"],
+  },
   generator: "v0.app",
 };
 

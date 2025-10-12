@@ -30,7 +30,7 @@ const experiences = [
     technologies: ["Dart", "Figma", "Firebase", "Flutter", "Postman"],
   },
   {
-    period: "2016 — 2018",
+    period: "August 2022 – July 2023",
     title: "Core Team Member—Mobile App Developer",
     company: "Google Developer Student Club",
     slug: "gdsc",
