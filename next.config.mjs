@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
+const isVercel = !!process.env.VERCEL;  // Automatically true on Vercel builds
+
 const nextConfig = {
-  //output: 'export',
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -10,7 +11,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: process.env.NODE_ENV === 'production' ? '/your-repo-name' : '',
-}
+  basePath: isVercel ? '' : '',  // Always empty for Vercel; customize if needed for other hosts
+  // If you add GitHub Pages later: basePath: isVercel ? '' : '/your-actual-repo-name',
+};
 
-export default nextConfig
+export default nextConfig;
