@@ -171,6 +171,8 @@ const companyWork = {
         title: "E-Commerce Platform",
         description:
           "Built custom e-commerce solution for retail client with product catalog, shopping cart, and payment integration. Handled thousands of transactions monthly.",
+        longDescription:
+          "The system handles over 1 billion requests per day, processing data across multiple geographic regions. I architected the entire infrastructure from scratch, choosing Redis as the core technology and implementing custom sharding logic to distribute load efficiently. The project involved deep performance optimization, including connection pooling, pipeline batching, and intelligent cache invalidation strategies.",
         technologies: ["JavaScript", "jQuery", "PHP", "MySQL", "Stripe"],
         impact: [
           "1000+ monthly transactions",
