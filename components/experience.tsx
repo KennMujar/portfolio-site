@@ -6,7 +6,7 @@ import Link from "next/link";
 const experiences = [
   {
     period: "January 2025 — June 2025",
-    title: "Software Engineer",
+    title: "Junior Software Engineer",
     company: "BU Health Sync+",
     slug: "bu-health-sync-plus",
     description:

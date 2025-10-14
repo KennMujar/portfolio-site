@@ -1,19 +1,20 @@
 "use client";
 
 import { Navigation } from "@/components/navigation";
-import { ArrowLeft, Monitor, Smartphone } from "lucide-react"; // Removed ChevronLeft, ChevronRight
+import { ArrowLeft, Monitor, Smartphone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+// FIX: Import useParams along with notFound
+import { notFound, useParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { useSwipeable } from "react-swipeable";
 
-// ... (Your companyWork data structure remains the same) ...
+// --- START: Data Structure (Kept the same) ---
 const companyWork = {
   "bu-health-sync-plus": {
     name: "BU HealthSync+",
     period: "January 2025-June 2025",
-    role: "Senior Software Engineer",
+    role: "Junior Software Engineer",
     description:
       "BU Health Sync+ is a web and mobile app designed to easily manage medical records, book clinic appointments, and access health-related updates — all in one platform.",
     projects: [
@@ -24,7 +25,14 @@ const companyWork = {
           "A web application for managing telemedicine and healthcare-related services. This project is built using Laravel, Vue.js, and MySQL, providing a seamless experience for healthcare providers and patients.",
         longDescription:
           "The BU HealthSync+ Website serves as the administrative and management platform for the BU HealthSync+ ecosystem. It is designed to help university medical staff and administrators efficiently manage student health records, appointment schedules, and medical reports in real time. \n\n Through an intuitive web interface, authorized personnel can view, update, and monitor student medical data, track clinic activities, and generate analytics for health trends within the university. The platform also supports secure authentication, role-based access control, and integration with the BU HealthSync+ mobile application, ensuring seamless communication between students and the campus health office.",
-        technologies: ["Go", "Redis", "Kubernetes", "gRPC", "Prometheus"],
+        technologies: [
+          "Laravel",
+          "Vue.js",
+          "PHP",
+          "MySQL",
+          "JavaScript",
+          "Git",
+        ],
         impact: [
           "Streamlined telemedicine and health record management for the university community",
           "Improved data accessibility and response times for healthcare staff by 35%",
@@ -49,12 +57,11 @@ const companyWork = {
         longDescription:
           "The BU HealthSync+ Mobile App serves as a companion platform to the BU HealthSync+ web system, offering students, faculty, and healthcare providers a seamless and accessible way to manage telemedicine and health-related services directly from their smartphones. \n\n Designed with a user-friendly and modern interface, the app allows users to easily book medical appointments, access health records, communicate with university healthcare staff, and receive real-time updates or notifications. It enhances the overall healthcare experience by bridging the gap between digital convenience and personal wellness.",
         technologies: [
-          "Laravel",
-          "Vue.js",
-          "PHP",
-          "JavaScript",
-          "MySQL",
-          "Git",
+          "React Native",
+          "Expo",
+          "Laravel REST API",
+          "Figma",
+          "Javascript",
         ],
         impact: [
           "Improved accessibility of campus healthcare services for students and staff",
@@ -67,7 +74,7 @@ const companyWork = {
           "Integrated RESTful APIs to connect with the Laravel backend for telemedicine and user management features",
           "Developed core functionalities including user registration, login, and appointment scheduling",
           "Implemented reusable UI components following clean code and modular design principles",
-          "Assisted in debugging, testing, and deployment to ensure smooth app performance",
+          "Assisted in debugging, testing, and deployment processes to ensure smooth app performance",
         ],
         mobileScreenshots: [
           "/BUApp1.png",
@@ -165,20 +172,23 @@ type Project =
     mobileScreenshots: string[];
     desktopScreenshots: string[];
   };
+// --- END: Data Structure ---
 
-export default function CompanyWorkPage({
-  params,
-}: {
-  params: { company: string };
-}) {
-  const company = companyWork[params.company as keyof typeof companyWork];
+// FIX: Remove the 'params' prop from the function signature
+export default function CompanyWorkPage() {
+  // FIX: Use the useParams hook to get the params object
+  const params = useParams();
+  const companyKey = params.company as string;
+
+  // FIX: Use the safely retrieved companyKey
+  const company = companyWork[companyKey as keyof typeof companyWork];
+
   const [activeDesktopScreenshot, setActiveDesktopScreenshot] = useState<{
     [key: string]: number;
   }>({});
   const [activeMobileScreenshot, setActiveMobileScreenshot] = useState<{
     [key: string]: number;
   }>({});
-  // NEW STATE: Used to store the current drag/swipe distance for animation
   const [swipeTranslateX, setSwipeTranslateX] = useState<{
     [key: string]: number;
   }>({});
@@ -191,15 +201,24 @@ export default function CompanyWorkPage({
     notFound();
   }
 
-  // --- SWIPE LOGIC FUNCTIONS ---
+  // --- SWIPE LOGIC FUNCTIONS (MODIFIED) ---
+
+  // *** The navigation functions now use a boundary check instead of the modulo operator (%) ***
   const goToNextMobileScreenshot = useCallback(
     (projectTitle: string, totalScreenshots: number) => {
-      setActiveMobileScreenshot((prev) => ({
-        ...prev,
-        [projectTitle]: ((prev[projectTitle] || 0) + 1) % totalScreenshots,
-      }));
+      setActiveMobileScreenshot((prev) => {
+        const current = prev[projectTitle] || 0;
+        // Navigation is ONLY allowed if the current index is NOT the last index
+        const nextIndex =
+          current < totalScreenshots - 1 ? current + 1 : current;
+
+        return {
+          ...prev,
+          [projectTitle]: nextIndex,
+        };
+      });
+
       setSwipeTranslateX((prev) => ({
-        // Reset animation position
         ...prev,
         [projectTitle]: 0,
       }));
@@ -209,13 +228,18 @@ export default function CompanyWorkPage({
 
   const goToPrevMobileScreenshot = useCallback(
     (projectTitle: string, totalScreenshots: number) => {
-      setActiveMobileScreenshot((prev) => ({
-        ...prev,
-        [projectTitle]:
-          ((prev[projectTitle] || 0) - 1 + totalScreenshots) % totalScreenshots,
-      }));
+      setActiveMobileScreenshot((prev) => {
+        const current = prev[projectTitle] || 0;
+        // Navigation is ONLY allowed if the current index is NOT the first index (0)
+        const prevIndex = current > 0 ? current - 1 : current;
+
+        return {
+          ...prev,
+          [projectTitle]: prevIndex,
+        };
+      });
+
       setSwipeTranslateX((prev) => ({
-        // Reset animation position
         ...prev,
         [projectTitle]: 0,
       }));
@@ -223,28 +247,50 @@ export default function CompanyWorkPage({
     []
   );
 
-  // --- HANDLERS FOR SWIPE ---
+  // --- HANDLERS FOR SWIPE (MODIFIED) ---
   const createSwipeHandlers = (project: Project) => {
     const mobileScreenshots = project.mobileScreenshots;
     if (!mobileScreenshots || mobileScreenshots.length <= 1) {
       return {};
     }
     const total = mobileScreenshots.length;
+
+    // Get the current index for reference in the handlers
+    const currentIdx = activeMobileScreenshot[project.title] || 0;
+
     return useSwipeable({
-      // Handles the navigation logic when a swipe is completed
+      // Navigation handlers: Only move if not at the start/end
       onSwipedLeft: () => goToNextMobileScreenshot(project.title, total),
       onSwipedRight: () => goToPrevMobileScreenshot(project.title, total),
 
-      // Handles the animation logic WHILE the user is swiping (holding)
+      // Smooth Drag Animation: Runs *during* the swipe
       onSwiping: ({ deltaX }) => {
+        // *** Boundary Logic for "Stretch and Snap Back" ***
+
+        let newDeltaX = deltaX;
+
+        // Swiping Left (Trying to go past the last image)
+        if (currentIdx === total - 1 && deltaX < 0) {
+          // Reduce the drag distance past the boundary to create the "stretch" effect
+          newDeltaX = deltaX * 0.2; // Apply a damping factor
+        }
+
+        // Swiping Right (Trying to go past the first image)
+        if (currentIdx === 0 && deltaX > 0) {
+          // Reduce the drag distance past the boundary to create the "stretch" effect
+          newDeltaX = deltaX * 0.2; // Apply a damping factor
+        }
+
         setSwipeTranslateX((prev) => ({
           ...prev,
-          [project.title]: deltaX,
+          [project.title]: newDeltaX,
         }));
       },
 
-      // Resets the animation position if the swipe didn't qualify as a full swipe
-      onTouchEndOrOnMouseUp: () => {
+      // Snap-Back: This runs after onSwipedLeft/Right or on short/failed swipes.
+      // It ensures the swipeTranslateX is reset to 0 to allow the CSS transition
+      // to snap back to the current index.
+      onSwiped: () => {
         setSwipeTranslateX((prev) => ({
           ...prev,
           [project.title]: 0,
@@ -253,14 +299,29 @@ export default function CompanyWorkPage({
 
       preventScrollOnSwipe: true,
       trackMouse: true,
+      delta: 10,
     });
+  };
+  // ... (rest of the component) ...
+
+  const handleThumbnailClick = (projectTitle: string, idx: number) => {
+    // 1. Set the new index
+    setActiveMobileScreenshot((prev) => ({
+      ...prev,
+      [projectTitle]: idx,
+    }));
+    // 2. IMPORTANT: Reset the drag offset to 0 to allow the CSS transition to work.
+    setSwipeTranslateX((prev) => ({
+      ...prev,
+      [projectTitle]: 0,
+    }));
   };
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section */}
+      {/* Hero Section (No changes here) */}
       <header className="border-b border-border/40 bg-card/30 backdrop-blur-sm">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
           <Link
@@ -304,18 +365,20 @@ export default function CompanyWorkPage({
             const mobileSwipeHandlers = createSwipeHandlers(project);
             const hasMultipleMobileScreenshots =
               project.mobileScreenshots.length > 1;
-            const currentTranslateX = swipeTranslateX[project.title] || 0;
 
-            // Determine the next and previous image sources for the "peeking" effect
+            // Current index state
             const currentIdx = activeMobileScreenshot[project.title] || 0;
-            const totalScreenshots = project.mobileScreenshots.length;
-            const prevIdx =
-              (currentIdx - 1 + totalScreenshots) % totalScreenshots;
-            const nextIdx = (currentIdx + 1) % totalScreenshots;
+            // Current drag offset
+            const currentTranslateX = swipeTranslateX[project.title] || 0;
+            // The combined transform: -(Index * 100%) + (Drag Offset)
+            // The "100%" represents the width of a single screenshot element.
+            const carouselTransform = `translateX(calc(${
+              currentIdx * -100
+            }% + ${currentTranslateX}px))`;
 
             return (
               <article key={project.title} className="group">
-                {/* Project Header */}
+                {/* Project Header (No changes here) */}
                 <div className="mb-8">
                   <h2 className="mb-4 text-4xl font-bold tracking-tight">
                     {project.title}
@@ -410,7 +473,7 @@ export default function CompanyWorkPage({
                         </div>
                       )}
 
-                    {/* Mobile View - FLOATING IMAGE WITH SWIPE ANIMATION */}
+                    {/* Mobile View - Swipe area expanded to full column */}
                     {project.mobileScreenshots.length > 0 &&
                       (project.platform === "mobile" ||
                         project.platform === "both") && (
@@ -420,74 +483,52 @@ export default function CompanyWorkPage({
                               ? "lg:col-span-4"
                               : "lg:col-span-12"
                           }
+                          {...mobileSwipeHandlers} // Swipe handlers applied to the container
                         >
                           <div className="mb-3 flex items-center gap-2 text-sm font-medium text-muted-foreground">
                             <Smartphone className="h-4 w-4" />
                             Mobile Version
                           </div>
 
-                          {/* 1. Image Size Adjusted: max-w reduced. */}
-                          <div
-                            className="relative mx-auto w-full max-w-[200px] lg:max-w-sm"
-                            {...mobileSwipeHandlers}
-                          >
+                          {/* Simple Floating Image Space (smaller size) */}
+                          <div className="relative mx-auto w-full max-w-[200px] lg:max-w-sm">
+                            {/* REMOVED bg-muted/20 to show transparency */}
                             <div className="relative aspect-[9/19.5] overflow-hidden rounded-lg">
-                              {/* Container for the active image and the peeking images */}
+                              {/* Single Carousel Container holding all images */}
+                              {/* The transition is disabled while dragging (currentTranslateX !== 0) to avoid stuttering */}
                               <div
-                                className="h-full w-full relative transition-transform duration-300"
+                                className={`h-full w-full whitespace-nowrap ${
+                                  currentTranslateX === 0
+                                    ? "transition-transform duration-300 ease-out"
+                                    : "duration-0"
+                                }`}
                                 style={{
-                                  // 3. Apply the dynamic translate to the inner container for swipe-and-hold effect
-                                  transform: `translateX(${currentTranslateX}px)`,
+                                  transform: carouselTransform,
                                 }}
                               >
-                                {/* Current Image */}
-                                <Image
-                                  src={project.mobileScreenshots[currentIdx]}
-                                  alt={`${project.title} mobile screenshot`}
-                                  fill
-                                  className="object-cover select-none"
-                                  draggable="false"
-                                />
-
-                                {/* Previous Image (Peeks when swiping right) */}
-                                {hasMultipleMobileScreenshots && (
-                                  <Image
-                                    key={`prev-${project.title}`}
-                                    src={project.mobileScreenshots[prevIdx]}
-                                    alt={`${project.title} previous screenshot`}
-                                    fill
-                                    className="object-cover select-none absolute top-0 left-0"
-                                    style={{
-                                      // Position the previous image off-screen to the left
-                                      transform: "translateX(-100%)",
-                                      opacity: currentTranslateX > 0 ? 1 : 0, // Show when swiping right
-                                      transition: "opacity 300ms",
-                                    }}
-                                    draggable="false"
-                                  />
-                                )}
-
-                                {/* Next Image (Peeks when swiping left) */}
-                                {hasMultipleMobileScreenshots && (
-                                  <Image
-                                    key={`next-${project.title}`}
-                                    src={project.mobileScreenshots[nextIdx]}
-                                    alt={`${project.title} next screenshot`}
-                                    fill
-                                    className="object-cover select-none absolute top-0 left-0"
-                                    style={{
-                                      // Position the next image off-screen to the right
-                                      transform: "translateX(100%)",
-                                      opacity: currentTranslateX < 0 ? 1 : 0, // Show when swiping left
-                                      transition: "opacity 300ms",
-                                    }}
-                                    draggable="false"
-                                  />
+                                {project.mobileScreenshots.map(
+                                  (screenshot, idx) => (
+                                    // Each screenshot takes up 100% of the parent's width, laid out horizontally
+                                    <div
+                                      key={`${project.title}-${idx}`}
+                                      className="relative inline-block h-full w-full"
+                                    >
+                                      <Image
+                                        src={screenshot}
+                                        alt={`${
+                                          project.title
+                                        } mobile screenshot ${idx + 1}`}
+                                        fill
+                                        className="object-cover select-none"
+                                        draggable="false"
+                                      />
+                                    </div>
+                                  )
                                 )}
                               </div>
                             </div>
 
-                            {/* Mobile Thumbnails (Remains the same) */}
+                            {/* Mobile Thumbnails (Fixed logic here) */}
                             {hasMultipleMobileScreenshots && (
                               <div className="mt-4 flex justify-center gap-3">
                                 {project.mobileScreenshots.map(
@@ -495,10 +536,7 @@ export default function CompanyWorkPage({
                                     <button
                                       key={idx}
                                       onClick={() =>
-                                        setActiveMobileScreenshot((prev) => ({
-                                          ...prev,
-                                          [project.title]: idx,
-                                        }))
+                                        handleThumbnailClick(project.title, idx)
                                       }
                                       className={`relative aspect-[9/19.5] w-12 overflow-hidden rounded-lg border-2 transition-all ${
                                         (activeMobileScreenshot[
