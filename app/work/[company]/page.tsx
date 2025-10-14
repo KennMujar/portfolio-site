@@ -12,7 +12,7 @@ import { useSwipeable } from "react-swipeable";
 const companyWork = {
   "bu-health-sync-plus": {
     name: "BU HealthSync+",
-    period: "2020 — Present",
+    period: "January 2025-June 2025",
     role: "Senior Software Engineer",
     description:
       "BU Health Sync+ is a web and mobile app designed to easily manage medical records, book clinic appointments, and access health-related updates — all in one platform.",
@@ -23,19 +23,20 @@ const companyWork = {
         description:
           "A web application for managing telemedicine and healthcare-related services. This project is built using Laravel, Vue.js, and MySQL, providing a seamless experience for healthcare providers and patients.",
         longDescription:
-          "The BU HealthSync+ Website serves as the administrative and management platform for the BU HealthSync+ ecosystem. It is designed to help university medical staff and administrators efficiently manage student health records, appointment schedules, and medical reports in real time. Through an intuitive web interface, authorized personnel can view, update, and monitor student medical data, track clinic activities, and generate analytics for health trends within the university. The platform also supports secure authentication, role-based access control, and integration with the BU HealthSync+ mobile application, ensuring seamless communication between students and the campus health office.",
+          "The BU HealthSync+ Website serves as the administrative and management platform for the BU HealthSync+ ecosystem. It is designed to help university medical staff and administrators efficiently manage student health records, appointment schedules, and medical reports in real time. \n\n Through an intuitive web interface, authorized personnel can view, update, and monitor student medical data, track clinic activities, and generate analytics for health trends within the university. The platform also supports secure authentication, role-based access control, and integration with the BU HealthSync+ mobile application, ensuring seamless communication between students and the campus health office.",
         technologies: ["Go", "Redis", "Kubernetes", "gRPC", "Prometheus"],
         impact: [
-          "40% latency reduction",
-          "10M+ users impacted",
-          "99.99% uptime",
-          "1B+ daily requests",
+          "Streamlined telemedicine and health record management for the university community",
+          "Improved data accessibility and response times for healthcare staff by 35%",
+          "Enabled real-time synchronization between web and mobile platforms",
+          "Enhanced system reliability through optimized backend architecture",
         ],
         responsibilities: [
-          "Architected distributed caching infrastructure",
-          "Implemented custom load balancing algorithms",
-          "Led team of 4 engineers",
-          "Established monitoring and alerting systems",
+          "Collaborated on building and maintaining a secure and scalable web platform using Laravel, Vue.js, and MySQL",
+          "Developed key modules for patient records, appointment scheduling, and admin dashboards",
+          "Integrated RESTful APIs for seamless communication with the mobile app",
+          "Implemented form validation, authentication, and responsive UI components",
+          "Participated in testing, debugging, and deployment processes to ensure smooth operation",
         ],
         desktopScreenshots: ["/BUWeb1.png", "/BUWeb2.png", "/BUWeb3.png"],
         mobileScreenshots: [],
@@ -46,32 +47,35 @@ const companyWork = {
         description:
           "A comprehensive mobile healthcare application built with React Native and Expo, designed to provide seamless healthcare services for patients and healthcare providers.",
         longDescription:
-          "The BU HealthSync+ Mobile App serves as a companion platform to the BU HealthSync+ web system, offering students, faculty, and healthcare providers a seamless and accessible way to manage telemedicine and health-related services directly from their smartphones. Designed with a user-friendly and modern interface, the app allows users to easily book medical appointments, access health records, communicate with university healthcare staff, and receive real-time updates or notifications. It enhances the overall healthcare experience by bridging the gap between digital convenience and personal wellness.",
+          "The BU HealthSync+ Mobile App serves as a companion platform to the BU HealthSync+ web system, offering students, faculty, and healthcare providers a seamless and accessible way to manage telemedicine and health-related services directly from their smartphones. \n\n Designed with a user-friendly and modern interface, the app allows users to easily book medical appointments, access health records, communicate with university healthcare staff, and receive real-time updates or notifications. It enhances the overall healthcare experience by bridging the gap between digital convenience and personal wellness.",
         technologies: [
-          "React",
-          "TypeScript",
-          "D3.js",
-          "WebSocket",
-          "AWS",
-          "DynamoDB",
+          "Laravel",
+          "Vue.js",
+          "PHP",
+          "JavaScript",
+          "MySQL",
+          "Git",
         ],
         impact: [
-          "60% faster load times",
-          "5M+ events processed daily",
-          "Real-time data updates",
-          "3 engineers mentored",
+          "Improved accessibility of campus healthcare services for students and staff",
+          "Delivered a cross-platform mobile solution ensuring consistent performance on Android and iOS",
+          "Enabled real-time synchronization with the web platform for medical records and appointments ",
+          "Enhanced user experience through responsive UI and seamless navigation",
         ],
         responsibilities: [
-          "Led frontend architecture design",
-          "Implemented real-time data streaming",
-          "Optimized rendering performance",
-          "Mentored junior engineers",
+          "Collaborated with the development team to build the mobile counterpart of BU HealthSync+ using React Native and Expo",
+          "Integrated RESTful APIs to connect with the Laravel backend for telemedicine and user management features",
+          "Developed core functionalities including user registration, login, and appointment scheduling",
+          "Implemented reusable UI components following clean code and modular design principles",
+          "Assisted in debugging, testing, and deployment to ensure smooth app performance",
         ],
         mobileScreenshots: [
           "/BUApp1.png",
           "/BUApp2.png",
           "/BUApp3.png",
           "/BUApp4.png",
+          "/BUApp5.png",
+          "/BUApp6.png",
         ],
         desktopScreenshots: [],
       },
@@ -530,7 +534,7 @@ export default function CompanyWorkPage({
                       <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-foreground/80">
                         Overview
                       </h3>
-                      <p className="leading-relaxed text-muted-foreground whitespace-pre-line">
+                      <p className="leading-relaxed text-muted-foreground whitespace-pre-line text-justify">
                         {project.longDescription || project.description}
                       </p>
                     </div>
