@@ -14,7 +14,7 @@ const companyWork = {
   "bu-health-sync-plus": {
     name: "BU HealthSync+",
     period: "January 2025-June 2025",
-    role: "Senior Software Engineer",
+    role: "Junior Software Engineer",
     description:
       "BU Health Sync+ is a web and mobile app designed to easily manage medical records, book clinic appointments, and access health-related updates — all in one platform.",
     projects: [
