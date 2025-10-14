@@ -1,35 +1,41 @@
-"use client"
+"use client";
 
-import { Card } from "@/components/ui/card"
-import { ExternalLink, Github, Gamepad2, Code2 } from "lucide-react"
-import Link from "next/link"
+import { Card } from "@/components/ui/card";
+import { ExternalLink, Github, Gamepad2, Code2 } from "lucide-react";
+import Link from "next/link";
 
 const gameProjects = [
   {
-    title: "Epic Adventure",
-    description: "An immersive 3D adventure game with stunning visuals and engaging gameplay",
-    image: "/epic-adventure-game-screenshot-with-hero-character.jpg",
+    title: "Mummy Rush",
+    description:
+      "Dash through ancient tombs, dodge saws, and prove your reflexes!",
+    image: "/MummyRush.png",
     technologies: ["Unity", "C#", "Blender"],
     gradient: "from-purple-500 via-pink-500 to-rose-500",
     icon: "🎮",
+    comingSoon: false,
   },
   {
     title: "Puzzle Master",
-    description: "Brain-teasing puzzles with beautiful minimalist design and relaxing music",
+    description:
+      "Brain-teasing puzzles with beautiful minimalist design and relaxing music",
     image: "/colorful-puzzle-game-interface.jpg",
     technologies: ["Unity", "C#", "Photoshop"],
     gradient: "from-cyan-500 via-blue-500 to-indigo-500",
     icon: "🧩",
+    comingSoon: true,
   },
   {
     title: "Space Shooter",
-    description: "Fast-paced arcade action with retro-inspired graphics and modern mechanics",
+    description:
+      "Fast-paced arcade action with retro-inspired graphics and modern mechanics",
     image: "/space-shooter-game-with-spaceship-and-enemies.jpg",
     technologies: ["Godot", "GDScript", "Aseprite"],
     gradient: "from-orange-500 via-amber-500 to-yellow-500",
     icon: "🚀",
+    comingSoon: true,
   },
-]
+];
 
 const personalProjects = [
   {
@@ -62,12 +68,12 @@ const personalProjects = [
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/yourusername/portfolio-template",
   },
-]
+];
 
 export function Projects() {
   const handleNavigation = () => {
-    sessionStorage.setItem("homeScrollPosition", window.scrollY.toString())
-  }
+    sessionStorage.setItem("homeScrollPosition", window.scrollY.toString());
+  };
 
   return (
     <section id="projects" className="py-20 lg:ml-32">
@@ -88,57 +94,117 @@ export function Projects() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {gameProjects.map((game) => (
-            <Link key={game.title} href="/games" onClick={handleNavigation} className="group block">
-              <Card className="relative overflow-hidden border-2 border-border/50 bg-card transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 active:scale-[0.98] md:hover:-translate-y-2">
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${game.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5 group-active:opacity-10`}
-                />
+          {gameProjects.map((game) => {
+            const CardWrapper = game.comingSoon ? "div" : Link;
+            const wrapperProps = game.comingSoon
+              ? { className: "block cursor-not-allowed" }
+              : {
+                  href: "/games",
+                  onClick: handleNavigation,
+                  className: "group block",
+                };
 
-                <div className="absolute right-4 top-4 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-card/90 text-2xl shadow-lg backdrop-blur-sm transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 group-active:scale-105">
-                  {game.icon}
-                </div>
+            return (
+              <CardWrapper key={game.title} {...wrapperProps}>
+                <Card
+                  className={`relative overflow-hidden border-2 border-border/50 bg-card transition-all duration-300 ${
+                    game.comingSoon
+                      ? "opacity-75"
+                      : "hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 active:scale-[0.98] md:hover:-translate-y-2 group"
+                  }`}
+                >
+                  {!game.comingSoon && (
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${game.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5 group-active:opacity-10`}
+                    />
+                  )}
 
-                <div className="relative h-48 overflow-hidden bg-muted">
-                  <img
-                    src={game.image || "/placeholder.svg"}
-                    alt={game.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110 group-active:scale-105"
-                  />
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-t ${game.gradient} opacity-20 transition-opacity duration-300 group-hover:opacity-30`}
-                  />
-                </div>
-
-                <div className="relative p-6">
-                  <h4 className="mb-2 text-xl font-bold text-foreground transition-colors duration-300 group-hover:text-primary">
-                    {game.title}
-                  </h4>
-                  <p className="mb-4 text-sm leading-relaxed text-muted-foreground">{game.description}</p>
-
-                  <div className="flex flex-wrap gap-2">
-                    {game.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className={`rounded-full bg-gradient-to-r ${game.gradient} px-3 py-1 font-mono text-xs font-medium text-white shadow-sm`}
-                      >
-                        {tech}
-                      </span>
-                    ))}
+                  <div className="absolute right-4 top-4 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-card/90 text-2xl shadow-lg backdrop-blur-sm transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 group-active:scale-105">
+                    {game.icon}
                   </div>
 
-                  <div className="mt-4 flex items-center gap-2 text-xs font-medium text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <span>View all games</span>
-                    <ExternalLink className="h-3 w-3" />
-                  </div>
-                </div>
+                  <div className="relative h-48 overflow-hidden bg-muted">
+                    <img
+                      src={game.image || "/placeholder.svg"}
+                      alt={game.title}
+                      className={`h-full w-full object-cover transition-transform duration-500 ${
+                        game.comingSoon
+                          ? "blur-md"
+                          : "group-hover:scale-110 group-active:scale-105"
+                      }`}
+                    />
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-t ${
+                        game.gradient
+                      } ${
+                        game.comingSoon
+                          ? "opacity-40"
+                          : "opacity-20 transition-opacity duration-300 group-hover:opacity-30"
+                      }`}
+                    />
 
-                <div
-                  className={`absolute bottom-0 right-0 h-20 w-20 bg-gradient-to-tl ${game.gradient} opacity-5 transition-opacity duration-300 group-hover:opacity-15`}
-                />
-              </Card>
-            </Link>
-          ))}
+                    {game.comingSoon && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-sm">
+                        <div className="text-center">
+                          <div
+                            className={`mb-2 inline-block rounded-full bg-gradient-to-r ${game.gradient} px-6 py-2 text-sm font-bold text-white shadow-lg`}
+                          >
+                            Coming Soon
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            In Development
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="relative p-6">
+                    <h4
+                      className={`mb-2 text-xl font-bold transition-colors duration-300 ${
+                        game.comingSoon
+                          ? "text-muted-foreground"
+                          : "text-foreground group-hover:text-primary"
+                      }`}
+                    >
+                      {game.title}
+                    </h4>
+                    <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                      {game.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2">
+                      {game.technologies.map((tech) => (
+                        <span
+                          key={tech}
+                          className={`rounded-full px-3 py-1 font-mono text-xs font-medium shadow-sm ${
+                            game.comingSoon
+                              ? "bg-muted text-muted-foreground"
+                              : `bg-gradient-to-r ${game.gradient} text-white`
+                          }`}
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    {!game.comingSoon && (
+                      <div className="mt-4 flex items-center gap-2 text-xs font-medium text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <span>View all games</span>
+                        <ExternalLink className="h-3 w-3" />
+                      </div>
+                    )}
+                  </div>
+
+                  {!game.comingSoon && (
+                    <div
+                      className={`absolute bottom-0 right-0 h-20 w-20 bg-gradient-to-tl ${game.gradient} opacity-5 transition-opacity duration-300 group-hover:opacity-15`}
+                    />
+                  )}
+                </Card>
+              </CardWrapper>
+            );
+          })}
         </div>
       </div>
 
@@ -188,7 +254,9 @@ export function Projects() {
                     {project.title}
                   </h4>
 
-                  <p className="mb-4 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
+                  <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                    {project.description}
+                  </p>
 
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map((tech) => (
@@ -207,5 +275,5 @@ export function Projects() {
         </div>
       </div>
     </section>
-  )
+  );
 }

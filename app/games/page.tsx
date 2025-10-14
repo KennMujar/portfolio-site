@@ -9,31 +9,190 @@ import {
   Gamepad2,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+function FloatingGameObjects() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <>
+      {/* Gaming Console - Top Right */}
+      <div
+        className="pointer-events-none fixed right-[10%] top-[15%] z-0 opacity-20"
+        style={{
+          transform: `translateY(${scrollY * 0.15}px) rotate(${
+            scrollY * 0.05
+          }deg)`,
+        }}
+      >
+        <div className="relative h-32 w-40">
+          {/* Console body */}
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/40 to-secondary/40 shadow-2xl" />
+          <div className="absolute inset-2 rounded-xl bg-gradient-to-br from-primary/60 to-secondary/60" />
+          {/* Screen */}
+          <div className="absolute left-1/2 top-6 h-12 w-24 -translate-x-1/2 rounded-lg bg-accent/80" />
+          {/* Buttons */}
+          <div className="absolute bottom-6 left-8 flex gap-2">
+            <div className="h-3 w-3 rounded-full bg-red-400" />
+            <div className="h-3 w-3 rounded-full bg-blue-400" />
+          </div>
+          <div className="absolute bottom-6 right-8">
+            <div className="h-4 w-4 rounded-full bg-green-400" />
+          </div>
+        </div>
+      </div>
+
+      {/* Game Controller - Left Side */}
+      <div
+        className="pointer-events-none fixed left-[5%] top-[40%] z-0 opacity-20"
+        style={{
+          transform: `translateY(${scrollY * 0.2}px) rotate(${
+            -scrollY * 0.03
+          }deg)`,
+        }}
+      >
+        <div className="relative h-24 w-36">
+          {/* Controller body */}
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent/40 to-primary/40 shadow-2xl" />
+          <div className="absolute inset-1 rounded-3xl bg-gradient-to-br from-accent/60 to-primary/60" />
+          {/* D-pad */}
+          <div className="absolute left-6 top-1/2 -translate-y-1/2">
+            <div className="relative h-8 w-8">
+              <div className="absolute left-1/2 top-0 h-3 w-2 -translate-x-1/2 bg-foreground/40" />
+              <div className="absolute bottom-0 left-1/2 h-3 w-2 -translate-x-1/2 bg-foreground/40" />
+              <div className="absolute left-0 top-1/2 h-2 w-3 -translate-y-1/2 bg-foreground/40" />
+              <div className="absolute right-0 top-1/2 h-2 w-3 -translate-y-1/2 bg-foreground/40" />
+            </div>
+          </div>
+          {/* Action buttons */}
+          <div className="absolute right-6 top-1/2 -translate-y-1/2">
+            <div className="relative h-8 w-8">
+              <div className="absolute left-1/2 top-0 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-red-400" />
+              <div className="absolute bottom-0 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-blue-400" />
+              <div className="absolute left-0 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-yellow-400" />
+              <div className="absolute right-0 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-green-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Pixel Heart - Top Left */}
+      <div
+        className="pointer-events-none fixed left-[15%] top-[20%] z-0 opacity-20"
+        style={{
+          transform: `translateY(${scrollY * 0.1}px) scale(${
+            1 + Math.sin(scrollY * 0.01) * 0.1
+          })`,
+        }}
+      >
+        <div className="relative h-16 w-16">
+          <div className="grid grid-cols-4 grid-rows-4 gap-1">
+            <div className="col-start-1 row-start-2 h-3 w-3 bg-red-400" />
+            <div className="col-start-2 row-start-1 h-3 w-3 bg-red-400" />
+            <div className="col-start-2 row-start-2 h-3 w-3 bg-red-500" />
+            <div className="col-start-2 row-start-3 h-3 w-3 bg-red-400" />
+            <div className="col-start-3 row-start-1 h-3 w-3 bg-red-400" />
+            <div className="col-start-3 row-start-2 h-3 w-3 bg-red-500" />
+            <div className="col-start-3 row-start-3 h-3 w-3 bg-red-400" />
+            <div className="col-start-4 row-start-2 h-3 w-3 bg-red-400" />
+            <div className="col-start-2 row-start-4 h-3 w-3 bg-red-400" />
+            <div className="col-start-3 row-start-4 h-3 w-3 bg-red-400" />
+          </div>
+        </div>
+      </div>
+
+      {/* Game Cartridge - Right Side */}
+      <div
+        className="pointer-events-none fixed right-[8%] top-[60%] z-0 opacity-20"
+        style={{
+          transform: `translateY(${scrollY * 0.25}px) rotate(${
+            scrollY * 0.04
+          }deg)`,
+        }}
+      >
+        <div className="relative h-28 w-20">
+          {/* Cartridge body */}
+          <div className="absolute inset-0 rounded-lg bg-gradient-to-b from-secondary/40 to-secondary/60 shadow-2xl" />
+          <div className="absolute inset-x-2 top-2 h-8 rounded bg-foreground/20" />
+          {/* Label */}
+          <div className="absolute inset-x-2 top-12 space-y-1">
+            <div className="h-1.5 rounded bg-foreground/30" />
+            <div className="h-1.5 w-3/4 rounded bg-foreground/30" />
+            <div className="h-1.5 w-1/2 rounded bg-foreground/30" />
+          </div>
+          {/* Bottom notch */}
+          <div className="absolute bottom-0 left-1/2 h-3 w-12 -translate-x-1/2 rounded-t bg-foreground/40" />
+        </div>
+      </div>
+
+      {/* Pixel Star - Bottom Left */}
+      <div
+        className="pointer-events-none fixed bottom-[20%] left-[12%] z-0 opacity-20"
+        style={{
+          transform: `translateY(${-scrollY * 0.12}px) rotate(${
+            scrollY * 0.1
+          }deg)`,
+        }}
+      >
+        <div className="relative h-12 w-12">
+          <div className="absolute left-1/2 top-0 h-4 w-1 -translate-x-1/2 bg-yellow-400" />
+          <div className="absolute bottom-0 left-1/2 h-4 w-1 -translate-x-1/2 bg-yellow-400" />
+          <div className="absolute left-0 top-1/2 h-1 w-4 -translate-y-1/2 bg-yellow-400" />
+          <div className="absolute right-0 top-1/2 h-1 w-4 -translate-y-1/2 bg-yellow-400" />
+          <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 bg-yellow-500" />
+        </div>
+      </div>
+
+      {/* Joystick - Bottom Right */}
+      <div
+        className="pointer-events-none fixed bottom-[30%] right-[15%] z-0 opacity-20"
+        style={{
+          transform: `translateY(${-scrollY * 0.18}px) rotate(${
+            -scrollY * 0.02
+          }deg)`,
+        }}
+      >
+        <div className="relative h-24 w-20">
+          {/* Base */}
+          <div className="absolute bottom-0 left-1/2 h-8 w-16 -translate-x-1/2 rounded-full bg-gradient-to-b from-foreground/30 to-foreground/50 shadow-xl" />
+          {/* Stick */}
+          <div className="absolute bottom-6 left-1/2 h-12 w-4 -translate-x-1/2 rounded-full bg-gradient-to-r from-primary/50 to-primary/70" />
+          {/* Ball top */}
+          <div className="absolute left-1/2 top-2 h-6 w-6 -translate-x-1/2 rounded-full bg-gradient-to-br from-accent/60 to-accent/80 shadow-lg" />
+        </div>
+      </div>
+    </>
+  );
+}
 
 const gameProjects = [
   {
-    title: "Epic Adventure Quest",
+    title: "Mummy Rush",
     description:
-      "An immersive 3D action-adventure game featuring stunning visuals, dynamic combat system, and an engaging storyline. Players explore vast open worlds, solve intricate puzzles, and battle formidable enemies. Built with cutting-edge graphics technology and optimized for smooth 60fps gameplay across all platforms.",
-    screenshots: [
-      "/epic-adventure-game-screenshot-with-hero-character.jpg",
-      "/epic-adventure-game-combat-scene.jpg",
-      "/epic-adventure-game-beautiful-landscape.jpg",
-    ],
+      "In Mummy Rush, you play as a daring little mummy escaping ancient tombs by sliding down poles at lightning speed. Watch out for spinning saws, deadly traps, and tricky gaps! Collect relics, unlock new wraps, and see how far your reflexes can take you.",
+    screenshots: ["/MummyRush1.png", "/MummyRush2.png", "/MummyRush3.png"],
     technologies: ["Unity", "C#", "Blender", "Shader Graph", "Cinemachine"],
     githubUrl: "https://github.com/yourusername/epic-adventure",
     playStoreUrl:
       "https://play.google.com/store/apps/details?id=com.yourcompany.epicadventure",
     appStoreUrl: "https://apps.apple.com/app/epic-adventure-quest/id123456789",
     features: [
-      "Open World Exploration",
-      "Dynamic Combat",
-      "Puzzle Solving",
-      "Epic Boss Battles",
+      "Fast-Paced Sliding Action",
+      "Challenging Trap Dodging",
+      "Vibrant 3D Environments",
+      "Endless Arcade Fun",
     ],
     platforms: ["iOS", "Android", "PC"],
   },
+
   {
     title: "Puzzle Master Pro",
     description:
@@ -112,7 +271,8 @@ export default function GameDevelopmentPortfolio() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+      <FloatingGameObjects />
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-12 lg:px-8">
         <Link
           href="/#projects"
           onClick={(e) => {

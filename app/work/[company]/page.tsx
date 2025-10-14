@@ -1,26 +1,29 @@
 "use client";
 
 import { Navigation } from "@/components/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Monitor, Smartphone } from "lucide-react"; // Removed ChevronLeft, ChevronRight
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { useSwipeable } from "react-swipeable";
 
+// ... (Your companyWork data structure remains the same) ...
 const companyWork = {
   "bu-health-sync-plus": {
     name: "BU HealthSync+",
     period: "2020 — Present",
     role: "Senior Software Engineer",
     description:
-      "Leading development of core platform features serving millions of users. Architecting scalable microservices infrastructure and mentoring engineering teams.",
+      "BU Health Sync+ is a web and mobile app designed to easily manage medical records, book clinic appointments, and access health-related updates — all in one platform.",
     projects: [
       {
-        title: "Distributed Caching System",
+        title: "BU HealthSync+ Website",
+        platform: "web",
         description:
-          "Built a high-performance distributed caching layer that reduced API latency by 40% and improved user experience for 10M+ users. Implemented custom load balancing algorithms and failover mechanisms to ensure 99.99% uptime.",
+          "A web application for managing telemedicine and healthcare-related services. This project is built using Laravel, Vue.js, and MySQL, providing a seamless experience for healthcare providers and patients.",
         longDescription:
-          "The system handles over 1 billion requests per day, processing data across multiple geographic regions. I architected the entire infrastructure from scratch, choosing Redis as the core technology and implementing custom sharding logic to distribute load efficiently. The project involved deep performance optimization, including connection pooling, pipeline batching, and intelligent cache invalidation strategies.",
+          "The BU HealthSync+ Website serves as the administrative and management platform for the BU HealthSync+ ecosystem. It is designed to help university medical staff and administrators efficiently manage student health records, appointment schedules, and medical reports in real time. Through an intuitive web interface, authorized personnel can view, update, and monitor student medical data, track clinic activities, and generate analytics for health trends within the university. The platform also supports secure authentication, role-based access control, and integration with the BU HealthSync+ mobile application, ensuring seamless communication between students and the campus health office.",
         technologies: ["Go", "Redis", "Kubernetes", "gRPC", "Prometheus"],
         impact: [
           "40% latency reduction",
@@ -34,18 +37,16 @@ const companyWork = {
           "Led team of 4 engineers",
           "Established monitoring and alerting systems",
         ],
-        screenshots: [
-          "/distributed-caching-system-dashboard-with-performa.jpg",
-          "/redis-cluster-monitoring-interface-with-graphs.jpg",
-          "/load-balancing-visualization-dashboard.jpg",
-        ],
+        desktopScreenshots: ["/BUWeb1.png", "/BUWeb2.png", "/BUWeb3.png"],
+        mobileScreenshots: [],
       },
       {
-        title: "Real-Time Analytics Dashboard",
+        title: "BU HealthSync+ Mobile App",
+        platform: "mobile",
         description:
-          "Developed analytics platform processing millions of events daily. Led frontend architecture decisions and mentored 3 junior engineers. Reduced dashboard load time by 60% through optimization.",
+          "A comprehensive mobile healthcare application built with React Native and Expo, designed to provide seamless healthcare services for patients and healthcare providers.",
         longDescription:
-          "Created a comprehensive analytics platform that provides real-time insights into user behavior and system performance. The dashboard uses WebSocket connections for live data streaming and implements virtual scrolling for handling large datasets. I led the frontend architecture, choosing React with TypeScript and implementing a custom state management solution optimized for real-time updates.",
+          "The BU HealthSync+ Mobile App serves as a companion platform to the BU HealthSync+ web system, offering students, faculty, and healthcare providers a seamless and accessible way to manage telemedicine and health-related services directly from their smartphones. Designed with a user-friendly and modern interface, the app allows users to easily book medical appointments, access health records, communicate with university healthcare staff, and receive real-time updates or notifications. It enhances the overall healthcare experience by bridging the gap between digital convenience and personal wellness.",
         technologies: [
           "React",
           "TypeScript",
@@ -66,36 +67,13 @@ const companyWork = {
           "Optimized rendering performance",
           "Mentored junior engineers",
         ],
-        screenshots: [
-          "/modern-analytics-dashboard.png",
-          "/real-time-data-visualization-with-live-updates.jpg",
-          "/analytics-dashboard-mobile-responsive-view.jpg",
+        mobileScreenshots: [
+          "/BUApp1.png",
+          "/BUApp2.png",
+          "/BUApp3.png",
+          "/BUApp4.png",
         ],
-      },
-      {
-        title: "Authentication Microservice",
-        description:
-          "Redesigned authentication flow reducing login failures by 60%. Integrated multiple OAuth providers and implemented security best practices including rate limiting and fraud detection.",
-        longDescription:
-          "Completely rebuilt the authentication system to support modern security standards and multiple authentication methods. The service handles millions of authentication requests daily with sub-100ms response times. Implemented comprehensive security measures including rate limiting, fraud detection using machine learning, and multi-factor authentication support.",
-        technologies: ["Node.js", "PostgreSQL", "JWT", "OAuth 2.0", "Redis"],
-        impact: [
-          "60% fewer login failures",
-          "5 OAuth providers integrated",
-          "Zero security incidents",
-          "2FA support",
-        ],
-        responsibilities: [
-          "Designed secure authentication architecture",
-          "Integrated OAuth providers (Google, GitHub, etc.)",
-          "Implemented rate limiting and fraud detection",
-          "Conducted security audits",
-        ],
-        screenshots: [
-          "/modern-login-interface-with-oauth-buttons.jpg",
-          "/two-factor-authentication-setup-screen.jpg",
-          "/authentication-security-dashboard.jpg",
-        ],
+        desktopScreenshots: [],
       },
     ],
   },
@@ -130,33 +108,13 @@ const companyWork = {
           "Implemented responsive design",
           "Conducted user testing sessions",
         ],
-        screenshots: [
+        desktopScreenshots: [
           "/distributed-caching-system-dashboard-with-performa.jpg",
           "/redis-cluster-monitoring-interface-with-graphs.jpg",
           "/load-balancing-visualization-dashboard.jpg",
         ],
-      },
-      {
-        title: "API Gateway Service",
-        description:
-          "Built centralized API gateway handling authentication, rate limiting, and request routing for all microservices. Reduced API response times by 35% and improved system reliability.",
-        technologies: ["Python", "Django", "PostgreSQL", "Redis", "Docker"],
-        impact: [
-          "35% faster API responses",
-          "Centralized authentication",
-          "Improved monitoring",
-        ],
-        responsibilities: [
-          "Designed API gateway architecture",
-          "Implemented rate limiting",
-          "Set up monitoring and logging",
-          "Documented API specifications",
-        ],
-        screenshots: [
-          "/distributed-caching-system-dashboard-with-performa.jpg",
-          "/redis-cluster-monitoring-interface-with-graphs.jpg",
-          "/load-balancing-visualization-dashboard.jpg",
-        ],
+        mobileScreenshots: [],
+        platform: "web",
       },
     ],
   },
@@ -169,6 +127,7 @@ const companyWork = {
     projects: [
       {
         title: "E-Commerce Platform",
+        platform: "web",
         description:
           "Built custom e-commerce solution for retail client with product catalog, shopping cart, and payment integration. Handled thousands of transactions monthly.",
         longDescription:
@@ -185,37 +144,23 @@ const companyWork = {
           "Implemented responsive design",
           "Performed cross-browser testing",
         ],
-        screenshots: [
+        desktopScreenshots: [
           "/distributed-caching-system-dashboard-with-performa.jpg",
           "/redis-cluster-monitoring-interface-with-graphs.jpg",
           "/load-balancing-visualization-dashboard.jpg",
         ],
-      },
-      {
-        title: "Content Management System",
-        description:
-          "Created custom CMS for content-heavy websites with drag-and-drop page builder and media management. Used by 5+ clients.",
-        technologies: ["PHP", "MySQL", "JavaScript", "Bootstrap"],
-        impact: [
-          "5+ clients using system",
-          "Drag-and-drop builder",
-          "Media management",
-        ],
-        responsibilities: [
-          "Built CMS backend",
-          "Implemented page builder",
-          "Created admin interface",
-          "Provided client training",
-        ],
-        screenshots: [
-          "/distributed-caching-system-dashboard-with-performa.jpg",
-          "/redis-cluster-monitoring-interface-with-graphs.jpg",
-          "/load-balancing-visualization-dashboard.jpg",
-        ],
+        mobileScreenshots: [],
       },
     ],
   },
 };
+
+type Project =
+  (typeof companyWork)["bu-health-sync-plus"]["projects"][number] & {
+    platform?: "web" | "mobile" | "both";
+    mobileScreenshots: string[];
+    desktopScreenshots: string[];
+  };
 
 export default function CompanyWorkPage({
   params,
@@ -223,7 +168,14 @@ export default function CompanyWorkPage({
   params: { company: string };
 }) {
   const company = companyWork[params.company as keyof typeof companyWork];
-  const [activeScreenshot, setActiveScreenshot] = useState<{
+  const [activeDesktopScreenshot, setActiveDesktopScreenshot] = useState<{
+    [key: string]: number;
+  }>({});
+  const [activeMobileScreenshot, setActiveMobileScreenshot] = useState<{
+    [key: string]: number;
+  }>({});
+  // NEW STATE: Used to store the current drag/swipe distance for animation
+  const [swipeTranslateX, setSwipeTranslateX] = useState<{
     [key: string]: number;
   }>({});
 
@@ -234,6 +186,71 @@ export default function CompanyWorkPage({
   if (!company) {
     notFound();
   }
+
+  // --- SWIPE LOGIC FUNCTIONS ---
+  const goToNextMobileScreenshot = useCallback(
+    (projectTitle: string, totalScreenshots: number) => {
+      setActiveMobileScreenshot((prev) => ({
+        ...prev,
+        [projectTitle]: ((prev[projectTitle] || 0) + 1) % totalScreenshots,
+      }));
+      setSwipeTranslateX((prev) => ({
+        // Reset animation position
+        ...prev,
+        [projectTitle]: 0,
+      }));
+    },
+    []
+  );
+
+  const goToPrevMobileScreenshot = useCallback(
+    (projectTitle: string, totalScreenshots: number) => {
+      setActiveMobileScreenshot((prev) => ({
+        ...prev,
+        [projectTitle]:
+          ((prev[projectTitle] || 0) - 1 + totalScreenshots) % totalScreenshots,
+      }));
+      setSwipeTranslateX((prev) => ({
+        // Reset animation position
+        ...prev,
+        [projectTitle]: 0,
+      }));
+    },
+    []
+  );
+
+  // --- HANDLERS FOR SWIPE ---
+  const createSwipeHandlers = (project: Project) => {
+    const mobileScreenshots = project.mobileScreenshots;
+    if (!mobileScreenshots || mobileScreenshots.length <= 1) {
+      return {};
+    }
+    const total = mobileScreenshots.length;
+    return useSwipeable({
+      // Handles the navigation logic when a swipe is completed
+      onSwipedLeft: () => goToNextMobileScreenshot(project.title, total),
+      onSwipedRight: () => goToPrevMobileScreenshot(project.title, total),
+
+      // Handles the animation logic WHILE the user is swiping (holding)
+      onSwiping: ({ deltaX }) => {
+        setSwipeTranslateX((prev) => ({
+          ...prev,
+          [project.title]: deltaX,
+        }));
+      },
+
+      // Resets the animation position if the swipe didn't qualify as a full swipe
+      onTouchEndOrOnMouseUp: () => {
+        setSwipeTranslateX((prev) => ({
+          ...prev,
+          [project.title]: 0,
+        }));
+      },
+
+      preventScrollOnSwipe: true,
+      trackMouse: true,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -276,138 +293,308 @@ export default function CompanyWorkPage({
         </div>
       </header>
 
-      {/* Projects Section */}
-      <main className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-        <div className="space-y-32">
-          {company.projects.map((project, index) => (
-            <article key={project.title} className="group">
-              {/* Project Header */}
-              <div className="mb-8">
-                <h2 className="mb-4 text-4xl font-bold tracking-tight">
-                  {project.title}
-                </h2>
-                <p className="text-xl leading-relaxed text-muted-foreground">
-                  {project.description}
-                </p>
-              </div>
+      <main className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+        <div className="space-y-24">
+          {company.projects.map((p, index) => {
+            const project = p as Project;
+            const mobileSwipeHandlers = createSwipeHandlers(project);
+            const hasMultipleMobileScreenshots =
+              project.mobileScreenshots.length > 1;
+            const currentTranslateX = swipeTranslateX[project.title] || 0;
 
-              {/* Screenshot Gallery */}
-              {project.screenshots && project.screenshots.length > 0 && (
+            // Determine the next and previous image sources for the "peeking" effect
+            const currentIdx = activeMobileScreenshot[project.title] || 0;
+            const totalScreenshots = project.mobileScreenshots.length;
+            const prevIdx =
+              (currentIdx - 1 + totalScreenshots) % totalScreenshots;
+            const nextIdx = (currentIdx + 1) % totalScreenshots;
+
+            return (
+              <article key={project.title} className="group">
+                {/* Project Header */}
+                <div className="mb-8">
+                  <h2 className="mb-4 text-4xl font-bold tracking-tight">
+                    {project.title}
+                  </h2>
+                  <p className="text-xl leading-relaxed text-muted-foreground">
+                    {project.description}
+                  </p>
+                </div>
+
+                {/* Screenshots Display */}
                 <div className="mb-12">
-                  <div className="relative aspect-[2/1] overflow-hidden rounded-lg border border-border/50 bg-muted/30">
-                    <Image
-                      src={
-                        project.screenshots[
-                          activeScreenshot[project.title] || 0
-                        ]
-                      }
-                      alt={`${project.title} screenshot ${
-                        (activeScreenshot[project.title] || 0) + 1
-                      }`}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                    />
-                  </div>
-
-                  {/* Screenshot Thumbnails */}
-                  {project.screenshots.length > 1 && (
-                    <div className="mt-4 flex gap-4">
-                      {project.screenshots.map((screenshot, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() =>
-                            setActiveScreenshot((prev) => ({
-                              ...prev,
-                              [project.title]: idx,
-                            }))
+                  <div className="grid gap-8 lg:grid-cols-12">
+                    {/* Desktop View (No changes here) */}
+                    {project.desktopScreenshots.length > 0 &&
+                      (project.platform === "web" ||
+                        project.platform === "both") && (
+                        <div
+                          className={
+                            project.platform === "both"
+                              ? "lg:col-span-8"
+                              : "lg:col-span-12"
                           }
-                          className={`relative aspect-video w-32 overflow-hidden rounded border-2 transition-all ${
-                            (activeScreenshot[project.title] || 0) === idx
-                              ? "border-primary"
-                              : "border-border/50 opacity-60 hover:opacity-100"
-                          }`}
                         >
-                          <Image
-                            src={screenshot || "/placeholder.svg"}
-                            alt={`Thumbnail ${idx + 1}`}
-                            fill
-                            className="object-cover"
-                          />
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
+                          <div className="mb-3 flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                            <Monitor className="h-4 w-4" />
+                            Desktop Version
+                          </div>
 
-              {/* Project Details Grid */}
-              <div className="grid gap-12 lg:grid-cols-2">
-                {/* Left Column */}
-                <div className="space-y-8">
-                  <div>
-                    <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-foreground/80">
-                      Overview
-                    </h3>
-                    <p className="leading-relaxed text-muted-foreground">
-                      {project.longDescription || project.description}
-                    </p>
-                  </div>
+                          {/* Browser Mockup */}
+                          <div className="overflow-hidden rounded-lg border border-border/50 bg-card/30">
+                            {/* Browser Chrome */}
+                            <div className="flex items-center gap-2 border-b border-border/50 bg-muted/30 px-4 py-3">
+                              <div className="flex gap-2">
+                                <div className="h-3 w-3 rounded-full bg-red-500/80" />
+                                <div className="h-3 w-3 rounded-full bg-yellow-500/80" />
+                                <div className="h-3 w-3 rounded-full bg-green-500/80" />
+                              </div>
+                              <div className="ml-4 flex-1 rounded bg-background/50 px-3 py-1 text-xs text-muted-foreground">
+                                {project.title
+                                  .toLowerCase()
+                                  .replace(/\s+/g, "-")}
+                                .app
+                              </div>
+                            </div>
+                            {/* Screenshot */}
+                            <div className="relative aspect-[16/10] bg-muted/20">
+                              <Image
+                                src={
+                                  project.desktopScreenshots[
+                                    activeDesktopScreenshot[project.title] || 0
+                                  ]
+                                }
+                                alt={`${project.title} desktop screenshot`}
+                                fill
+                                className="object-contain select-none"
+                                draggable="false"
+                              />
+                            </div>
+                          </div>
+                          {/* Desktop Thumbnails */}
+                          {project.desktopScreenshots.length > 1 && (
+                            <div className="mt-4 flex gap-3">
+                              {project.desktopScreenshots.map(
+                                (screenshot: string, idx: number) => (
+                                  <button
+                                    key={idx}
+                                    onClick={() =>
+                                      setActiveDesktopScreenshot((prev) => ({
+                                        ...prev,
+                                        [project.title]: idx,
+                                      }))
+                                    }
+                                    className={`relative aspect-video w-24 overflow-hidden rounded border-2 transition-all ${
+                                      (activeDesktopScreenshot[project.title] ||
+                                        0) === idx
+                                        ? "border-primary"
+                                        : "border-border/50 opacity-60 hover:opacity-100 active:opacity-100"
+                                    }`}
+                                  >
+                                    <Image
+                                      src={screenshot || "/placeholder.svg"}
+                                      alt={`Desktop thumbnail ${idx + 1}`}
+                                      fill
+                                      className="object-cover select-none"
+                                      draggable="false"
+                                    />
+                                  </button>
+                                )
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
 
-                  <div>
-                    <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-foreground/80">
-                      Technologies
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded-full border border-border/50 bg-card/50 px-4 py-1.5 font-mono text-sm text-foreground"
+                    {/* Mobile View - FLOATING IMAGE WITH SWIPE ANIMATION */}
+                    {project.mobileScreenshots.length > 0 &&
+                      (project.platform === "mobile" ||
+                        project.platform === "both") && (
+                        <div
+                          className={
+                            project.platform === "both"
+                              ? "lg:col-span-4"
+                              : "lg:col-span-12"
+                          }
                         >
-                          {tech}
-                        </span>
-                      ))}
+                          <div className="mb-3 flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                            <Smartphone className="h-4 w-4" />
+                            Mobile Version
+                          </div>
+
+                          {/* 1. Image Size Adjusted: max-w reduced. */}
+                          <div
+                            className="relative mx-auto w-full max-w-[200px] lg:max-w-sm"
+                            {...mobileSwipeHandlers}
+                          >
+                            <div className="relative aspect-[9/19.5] overflow-hidden rounded-lg">
+                              {/* Container for the active image and the peeking images */}
+                              <div
+                                className="h-full w-full relative transition-transform duration-300"
+                                style={{
+                                  // 3. Apply the dynamic translate to the inner container for swipe-and-hold effect
+                                  transform: `translateX(${currentTranslateX}px)`,
+                                }}
+                              >
+                                {/* Current Image */}
+                                <Image
+                                  src={project.mobileScreenshots[currentIdx]}
+                                  alt={`${project.title} mobile screenshot`}
+                                  fill
+                                  className="object-cover select-none"
+                                  draggable="false"
+                                />
+
+                                {/* Previous Image (Peeks when swiping right) */}
+                                {hasMultipleMobileScreenshots && (
+                                  <Image
+                                    key={`prev-${project.title}`}
+                                    src={project.mobileScreenshots[prevIdx]}
+                                    alt={`${project.title} previous screenshot`}
+                                    fill
+                                    className="object-cover select-none absolute top-0 left-0"
+                                    style={{
+                                      // Position the previous image off-screen to the left
+                                      transform: "translateX(-100%)",
+                                      opacity: currentTranslateX > 0 ? 1 : 0, // Show when swiping right
+                                      transition: "opacity 300ms",
+                                    }}
+                                    draggable="false"
+                                  />
+                                )}
+
+                                {/* Next Image (Peeks when swiping left) */}
+                                {hasMultipleMobileScreenshots && (
+                                  <Image
+                                    key={`next-${project.title}`}
+                                    src={project.mobileScreenshots[nextIdx]}
+                                    alt={`${project.title} next screenshot`}
+                                    fill
+                                    className="object-cover select-none absolute top-0 left-0"
+                                    style={{
+                                      // Position the next image off-screen to the right
+                                      transform: "translateX(100%)",
+                                      opacity: currentTranslateX < 0 ? 1 : 0, // Show when swiping left
+                                      transition: "opacity 300ms",
+                                    }}
+                                    draggable="false"
+                                  />
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Mobile Thumbnails (Remains the same) */}
+                            {hasMultipleMobileScreenshots && (
+                              <div className="mt-4 flex justify-center gap-3">
+                                {project.mobileScreenshots.map(
+                                  (screenshot: string, idx: number) => (
+                                    <button
+                                      key={idx}
+                                      onClick={() =>
+                                        setActiveMobileScreenshot((prev) => ({
+                                          ...prev,
+                                          [project.title]: idx,
+                                        }))
+                                      }
+                                      className={`relative aspect-[9/19.5] w-12 overflow-hidden rounded-lg border-2 transition-all ${
+                                        (activeMobileScreenshot[
+                                          project.title
+                                        ] || 0) === idx
+                                          ? "border-primary"
+                                          : "border-border/50 opacity-60 hover:opacity-100 active:opacity-100"
+                                      }`}
+                                    >
+                                      <Image
+                                        src={screenshot || "/placeholder.svg"}
+                                        alt={`Mobile thumbnail ${idx + 1}`}
+                                        fill
+                                        className="object-cover select-none"
+                                        draggable="false"
+                                      />
+                                    </button>
+                                  )
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                  </div>
+                </div>
+
+                {/* Project Details Grid (No changes here) */}
+                <div className="grid gap-12 lg:grid-cols-2">
+                  {/* Left Column */}
+                  <div className="space-y-8">
+                    <div>
+                      <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-foreground/80">
+                        Overview
+                      </h3>
+                      <p className="leading-relaxed text-muted-foreground whitespace-pre-line">
+                        {project.longDescription || project.description}
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-foreground/80">
+                        Technologies
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {project.technologies.map((tech) => (
+                          <span
+                            key={tech}
+                            className="rounded-full border border-border/50 bg-card/50 px-4 py-1.5 font-mono text-sm text-foreground"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column */}
+                  <div className="space-y-8">
+                    <div>
+                      <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-foreground/80">
+                        Key Impact
+                      </h3>
+                      <ul className="space-y-3">
+                        {project.impact.map((item) => (
+                          <li key={item} className="flex items-start gap-3">
+                            <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />
+                            <span className="text-muted-foreground">
+                              {item}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-foreground/80">
+                        Responsibilities
+                      </h3>
+                      <ul className="space-y-3">
+                        {project.responsibilities.map((item) => (
+                          <li key={item} className="flex items-start gap-3">
+                            <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />
+                            <span className="text-muted-foreground">
+                              {item}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
                 </div>
 
-                {/* Right Column */}
-                <div className="space-y-8">
-                  <div>
-                    <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-foreground/80">
-                      Key Impact
-                    </h3>
-                    <ul className="space-y-3">
-                      {project.impact.map((item) => (
-                        <li key={item} className="flex items-start gap-3">
-                          <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />
-                          <span className="text-muted-foreground">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-foreground/80">
-                      Responsibilities
-                    </h3>
-                    <ul className="space-y-3">
-                      {project.responsibilities.map((item) => (
-                        <li key={item} className="flex items-start gap-3">
-                          <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />
-                          <span className="text-muted-foreground">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              {/* Divider between projects */}
-              {index < company.projects.length - 1 && (
-                <div className="mt-32 border-t border-border/40" />
-              )}
-            </article>
-          ))}
+                {/* Divider between projects */}
+                {index < company.projects.length - 1 && (
+                  <div className="mt-32 border-t border-border/40" />
+                )}
+              </article>
+            );
+          })}
         </div>
       </main>
     </div>
