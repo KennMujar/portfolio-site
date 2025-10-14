@@ -4,7 +4,7 @@ import { Navigation } from "@/components/navigation";
 import { ArrowLeft, Monitor, Smartphone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-// FIX: Import useParams along with notFound
+// FIX 1: Import useParams along with notFound
 import { notFound, useParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { useSwipeable } from "react-swipeable";
@@ -14,7 +14,7 @@ const companyWork = {
   "bu-health-sync-plus": {
     name: "BU HealthSync+",
     period: "January 2025-June 2025",
-    role: "Junior Software Engineer",
+    role: "Senior Software Engineer",
     description:
       "BU Health Sync+ is a web and mobile app designed to easily manage medical records, book clinic appointments, and access health-related updates — all in one platform.",
     projects: [
@@ -174,13 +174,13 @@ type Project =
   };
 // --- END: Data Structure ---
 
-// FIX: Remove the 'params' prop from the function signature
+// FIX 1: Remove the 'params' prop from the function signature
 export default function CompanyWorkPage() {
-  // FIX: Use the useParams hook to get the params object
+  // FIX 1: Use the useParams hook to get the params object
   const params = useParams();
   const companyKey = params.company as string;
 
-  // FIX: Use the safely retrieved companyKey
+  // FIX 1: Use the safely retrieved companyKey
   const company = companyWork[companyKey as keyof typeof companyWork];
 
   const [activeDesktopScreenshot, setActiveDesktopScreenshot] = useState<{
@@ -297,7 +297,9 @@ export default function CompanyWorkPage() {
         }));
       },
 
-      preventScrollOnSwipe: true,
+      // FIX 2: Set to false to allow vertical scrolling when swiping on the carousel area.
+      preventScrollOnSwipe: false,
+
       trackMouse: true,
       delta: 10,
     });
