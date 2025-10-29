@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import Link from "next/link";
+// import Link from "next/link"; // Removed to fix build error
 
 const experiences = [
   {
@@ -55,14 +55,16 @@ export function Experience() {
         </h2>
       </div>
       <div className="space-y-8">
-        {experiences.map((exp, index) => (
-          <Link
-            key={index}
-            href={`/work/${exp.slug}`}
-            className="block"
-            onClick={handleNavigation}
-          >
-            <Card className="border-border/50 bg-card/50 p-6 backdrop-blur-sm transition-all hover:border-primary/50 active:scale-95 md:hover:-translate-y-1">
+        {experiences.map((exp, index) => {
+          // 1. Define the card content as a reusable variable
+          const cardContent = (
+            <Card
+              className={`border-border/50 bg-card/50 p-6 backdrop-blur-sm transition-all hover:border-primary/50 md:hover:-translate-y-1 ${
+                exp.slug === "gdsc"
+                  ? "cursor-default" // Makes it look non-clickable
+                  : "active:scale-95" // Apply hover effects only if not GDSC
+              }`}
+            >
               <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
                 <div>
                   <h3 className="text-xl font-bold text-foreground">
@@ -87,12 +89,30 @@ export function Experience() {
                   </span>
                 ))}
               </div>
-              <p className="mt-4 text-sm text-primary">
-                Click to view detailed work →
-              </p>
+
+              {/* 2. Conditionally render the "Click to view" text */}
+              {exp.slug !== "gdsc" && (
+                <p className="mt-4 text-sm text-primary">
+                  Click to view detailed work →
+                </p>
+              )}
             </Card>
-          </Link>
-        ))}
+          );
+
+          // 3. Conditionally wrap the card in an <a> or a <div>
+          return exp.slug === "gdsc" ? (
+            <div key={index}>{cardContent}</div>
+          ) : (
+            <a // Changed from <Link> to <a> to resolve build error
+              key={index}
+              href={`/work/${exp.slug}`}
+              className="block"
+              onClick={handleNavigation}
+            >
+              {cardContent}
+            </a>
+          );
+        })}
       </div>
     </section>
   );

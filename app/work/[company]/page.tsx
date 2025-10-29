@@ -129,41 +129,6 @@ const companyWork = {
       },
     ],
   },
-  gdsc: {
-    name: "Digital Agency",
-    period: "2016 — 2018",
-    role: "Junior Developer",
-    description:
-      "Developed responsive websites and web applications for various clients. Worked closely with senior developers to learn best practices.",
-    projects: [
-      {
-        title: "E-Commerce Platform",
-        platform: "web",
-        description:
-          "Built custom e-commerce solution for retail client with product catalog, shopping cart, and payment integration. Handled thousands of transactions monthly.",
-        longDescription:
-          "The system handles over 1 billion requests per day, processing data across multiple geographic regions. I architected the entire infrastructure from scratch, choosing Redis as the core technology and implementing custom sharding logic to distribute load efficiently. The project involved deep performance optimization, including connection pooling, pipeline batching, and intelligent cache invalidation strategies.",
-        technologies: ["JavaScript", "jQuery", "PHP", "MySQL", "Stripe"],
-        impact: [
-          "1000+ monthly transactions",
-          "Mobile-responsive design",
-          "Payment integration",
-        ],
-        responsibilities: [
-          "Developed frontend features",
-          "Integrated payment gateway",
-          "Implemented responsive design",
-          "Performed cross-browser testing",
-        ],
-        desktopScreenshots: [
-          "/distributed-caching-system-dashboard-with-performa.jpg",
-          "/redis-cluster-monitoring-interface-with-graphs.jpg",
-          "/load-balancing-visualization-dashboard.jpg",
-        ],
-        mobileScreenshots: [],
-      },
-    ],
-  },
 };
 
 type Project =
