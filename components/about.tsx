@@ -31,7 +31,7 @@ export function About() {
           <p className="leading-relaxed">
             Here are a few technologies I've been working with recently:
           </p>
-          <ul className="grid grid-cols-2 gap-2 font-mono text-sm">
+          <ul className="columns-2 gap-2 font-mono text-sm">
             {[
               "Java",
               "C#",
@@ -42,7 +42,7 @@ export function About() {
               "Flutter",
               "React Native",
             ].map((tech) => (
-              <li key={tech} className="flex items-center">
+              <li key={tech} className="flex items-center mb-2">
                 <span className="mr-2 text-primary">▹</span>
                 {tech}
               </li>
