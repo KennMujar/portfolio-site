@@ -54,7 +54,7 @@ export function About() {
             <img
               src="/me-cutie.JPG"
               alt="Profile"
-              className="h-full w-full object-cover grayscale transition-all hover:grayscale-0"
+              className="h-full w-full object-cover"
             />
           </div>
           <div className="absolute left-6 top-6 -z-10 h-full w-full rounded-lg border-2 border-primary" />
