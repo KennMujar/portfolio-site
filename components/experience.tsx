@@ -40,6 +40,11 @@ const experiences = [
   },
 ];
 
+// --- Define slugs that should not be clickable ---
+// To add more non-clickable slugs, just add them to this array
+// e.g., const nonClickableSlugs = ["gdsc", "another-slug"];
+const nonClickableSlugs = ["gdsc", "fit2gether"];
+
 export function Experience() {
   const handleNavigation = () => {
     sessionStorage.setItem("homeScrollPosition", window.scrollY.toString());
@@ -56,13 +61,16 @@ export function Experience() {
       </div>
       <div className="space-y-8">
         {experiences.map((exp, index) => {
+          // Check if the current slug is in the non-clickable list
+          const isNonClickable = nonClickableSlugs.includes(exp.slug);
+
           // 1. Define the card content as a reusable variable
           const cardContent = (
             <Card
               className={`border-border/50 bg-card/50 p-6 backdrop-blur-sm transition-all hover:border-primary/50 md:hover:-translate-y-1 ${
-                exp.slug === "gdsc"
+                isNonClickable
                   ? "cursor-default" // Makes it look non-clickable
-                  : "active:scale-95" // Apply hover effects only if not GDSC
+                  : "active:scale-95" // Apply hover effects only if not in the list
               }`}
             >
               <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
@@ -91,7 +99,7 @@ export function Experience() {
               </div>
 
               {/* 2. Conditionally render the "Click to view" text */}
-              {exp.slug !== "gdsc" && (
+              {!isNonClickable && (
                 <p className="mt-4 text-sm text-primary">
                   Click to view detailed work →
                 </p>
@@ -100,7 +108,7 @@ export function Experience() {
           );
 
           // 3. Conditionally wrap the card in an <a> or a <div>
-          return exp.slug === "gdsc" ? (
+          return isNonClickable ? (
             <div key={index}>{cardContent}</div>
           ) : (
             <a // Changed from <Link> to <a> to resolve build error
