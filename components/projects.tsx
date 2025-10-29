@@ -48,6 +48,7 @@ const personalProjects = [
     liveUrl: "/dipcy.mp4",
     githubUrl: "https://github.com/KennMujar/disaster-prep-chatbot",
   },
+  /*
   {
     title: "Social Media Automation Tool",
     slug: "social-media-automation",
@@ -68,6 +69,7 @@ const personalProjects = [
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/yourusername/portfolio-template",
   },
+  */
 ];
 
 export function Projects() {
