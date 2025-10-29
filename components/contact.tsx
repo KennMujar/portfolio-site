@@ -13,7 +13,10 @@ export function Contact() {
           best to get back to you!
         </p>
         <Button size="lg" asChild>
-          <a href="mailto:your.email@example.com">
+          <a
+            href="https://mail.google.com/mail/?view=cm&to=gertrude.kenn.mujar@gmail.com"
+            target="_blank"
+          >
             <Mail className="mr-2 h-5 w-5" />
             Say Hello
           </a>

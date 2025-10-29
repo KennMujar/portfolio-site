@@ -1,21 +1,45 @@
 const skillCategories = [
   {
     title: "Languages",
-    skills: ["JavaScript", "TypeScript", "Python", "Java", "C++", "SQL", "HTML/CSS"],
+    skills: ["Java", "C", "C#", "Python", "Dart", "JavaScript", "SQL"],
   },
   {
     title: "Frameworks & Libraries",
-    skills: ["React", "Next.js", "Node.js", "Express", "Django", "Flask", "Tailwind CSS"],
+    skills: [
+      "Flutter",
+      "Android SDK",
+      "Firebase",
+      "Unity",
+      "React",
+      "Tailwind CSS",
+      "Next.js",
+    ],
   },
   {
     title: "Tools & Platforms",
-    skills: ["Git", "Docker", "AWS", "PostgreSQL", "MongoDB", "Redis", "Vercel"],
+    skills: [
+      "Git",
+      "GitHub",
+      "VS Code",
+      "Android Studio",
+      "Postman",
+      "Figma",
+      "Firebase Console",
+    ],
   },
   {
     title: "Concepts",
-    skills: ["System Design", "Microservices", "REST APIs", "GraphQL", "CI/CD", "Agile", "Testing"],
+    skills: [
+      "Mobile App Development",
+      "Game Development",
+      "UI/UX Design",
+      "Machine Learning",
+      "OOP",
+      "API Integration",
+      "Database Management",
+    ],
   },
-]
+];
 
 export function Skills() {
   return (
@@ -30,10 +54,15 @@ export function Skills() {
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
         {skillCategories.map((category) => (
           <div key={category.title}>
-            <h3 className="mb-4 text-lg font-bold text-primary">{category.title}</h3>
+            <h3 className="mb-4 text-lg font-bold text-primary">
+              {category.title}
+            </h3>
             <ul className="space-y-2">
               {category.skills.map((skill) => (
-                <li key={skill} className="flex items-center text-muted-foreground">
+                <li
+                  key={skill}
+                  className="flex items-center text-muted-foreground"
+                >
                   <span className="mr-2 text-primary">▹</span>
                   {skill}
                 </li>
@@ -43,5 +72,5 @@ export function Skills() {
         ))}
       </div>
     </section>
-  )
+  );
 }

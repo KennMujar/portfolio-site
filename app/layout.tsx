@@ -7,6 +7,8 @@ import { Suspense } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://kenn-mujar.vercel.app"),
+
   title: "Kenn | Developer Portfolio",
   description:
     "Hi, I’m Kenn — a software engineer who loves building mobile apps and games.",

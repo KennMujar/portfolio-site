@@ -192,7 +192,7 @@ const gameProjects = [
     ],
     platforms: ["iOS", "Android", "PC"],
   },
-
+  /*
   {
     title: "Puzzle Master Pro",
     description:
@@ -262,6 +262,7 @@ const gameProjects = [
     ],
     platforms: ["iOS", "PC"],
   },
+  */
 ];
 
 export default function GameDevelopmentPortfolio() {

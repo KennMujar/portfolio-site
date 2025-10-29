@@ -39,14 +39,14 @@ const gameProjects = [
 
 const personalProjects = [
   {
-    title: "E-Commerce Platform",
-    slug: "ecommerce-platform",
+    title: "Local Disaster Preparedness Chatbot",
+    slug: "dipcy",
     description:
-      "Full-stack e-commerce solution with real-time inventory management, payment processing, and admin dashboard. Handles thousands of transactions daily.",
-    image: "/modern-ecommerce-dashboard.png",
+      "A smart chatbot that helps communities prepare for natural disasters by providing accurate and localized information. It uses advanced AI technologies like RAG and LLMs to deliver real-time updates and guidance from local disaster agencies through a simple, conversational interface.",
+    image: "/dipcy3.png",
     technologies: ["React", "Node.js", "PostgreSQL", "Stripe", "Redis"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/yourusername/ecommerce",
+    liveUrl: "/dipcy.mp4",
+    githubUrl: "https://github.com/KennMujar/disaster-prep-chatbot",
   },
   {
     title: "Social Media Automation Tool",
@@ -95,17 +95,116 @@ export function Projects() {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {gameProjects.map((game) => {
-            const CardWrapper = game.comingSoon ? "div" : Link;
-            const wrapperProps = game.comingSoon
-              ? { className: "block cursor-not-allowed" }
-              : {
-                  href: "/games",
-                  onClick: handleNavigation,
-                  className: "group block",
-                };
+            if (game.comingSoon) {
+              return (
+                <div key={game.title} className="block cursor-not-allowed">
+                  <Card
+                    className={`relative overflow-hidden border-2 border-border/50 bg-card transition-all duration-300 ${
+                      game.comingSoon
+                        ? "opacity-75"
+                        : "hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 active:scale-[0.98] md:hover:-translate-y-2 group"
+                    }`}
+                  >
+                    {!game.comingSoon && (
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${game.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5 group-active:opacity-10`}
+                      />
+                    )}
+
+                    <div className="absolute right-4 top-4 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-card/90 text-2xl shadow-lg backdrop-blur-sm transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12 group-active:scale-105">
+                      {game.icon}
+                    </div>
+
+                    <div className="relative h-48 overflow-hidden bg-muted">
+                      <img
+                        src={game.image || "/placeholder.svg"}
+                        alt={game.title}
+                        className={`h-full w-full object-cover transition-transform duration-500 ${
+                          game.comingSoon
+                            ? "blur-md"
+                            : "group-hover:scale-110 group-active:scale-105"
+                        }`}
+                      />
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-t ${
+                          game.gradient
+                        } ${
+                          game.comingSoon
+                            ? "opacity-40"
+                            : "opacity-20 transition-opacity duration-300 group-hover:opacity-30"
+                        }`}
+                      />
+
+                      {game.comingSoon && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-sm">
+                          <div className="text-center">
+                            <div
+                              className={`mb-2 inline-block rounded-full bg-gradient-to-r ${game.gradient} px-6 py-2 text-sm font-bold text-white shadow-lg`}
+                            >
+                              Coming Soon
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              In Development
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="relative p-6">
+                      <h4
+                        className={`mb-2 text-xl font-bold transition-colors duration-300 ${
+                          game.comingSoon
+                            ? "text-muted-foreground"
+                            : "text-foreground group-hover:text-primary"
+                        }`}
+                      >
+                        {game.title}
+                      </h4>
+                      <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                        {game.description}
+                      </p>
+
+                      <div className="flex flex-wrap gap-2">
+                        {game.technologies.map((tech) => (
+                          <span
+                            key={tech}
+                            className={`rounded-full px-3 py-1 font-mono text-xs font-medium shadow-sm ${
+                              game.comingSoon
+                                ? "bg-muted text-muted-foreground"
+                                : `bg-gradient-to-r ${game.gradient} text-white`
+                            }`}
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      {!game.comingSoon && (
+                        <div className="mt-4 flex items-center gap-2 text-xs font-medium text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                          <span>View all games</span>
+                          <ExternalLink className="h-3 w-3" />
+                        </div>
+                      )}
+                    </div>
+
+                    {!game.comingSoon && (
+                      <div
+                        className={`absolute bottom-0 right-0 h-20 w-20 bg-gradient-to-tl ${game.gradient} opacity-5 transition-opacity duration-300 group-hover:opacity-15`}
+                      />
+                    )}
+                  </Card>
+                </div>
+              );
+            }
 
             return (
-              <CardWrapper key={game.title} {...wrapperProps}>
+              <Link
+                key={game.title}
+                href="/games"
+                onClick={handleNavigation}
+                className="group block"
+              >
                 <Card
                   className={`relative overflow-hidden border-2 border-border/50 bg-card transition-all duration-300 ${
                     game.comingSoon
@@ -202,7 +301,7 @@ export function Projects() {
                     />
                   )}
                 </Card>
-              </CardWrapper>
+              </Link>
             );
           })}
         </div>
